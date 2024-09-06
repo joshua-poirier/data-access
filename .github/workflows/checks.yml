@@ -1,0 +1,42 @@
+name: checks
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: Actions CI
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+        with:
+          persist-credentials: false
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+
+      - name: Setup Virtual Environment
+        run: make init
+
+      - name: Run lint checks
+        run: make lint
+      
+      - name: Run format checks
+        run: make check_format
+      
+      - name: Run type checks
+        run: make check_types
+
+      - name: Run unit tests
+        run: make test
+
+      - name: Create documentation
+        run: make docs
+      
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
