@@ -22,18 +22,6 @@ plugins:
         - release: patch
           type: build
   - "@semantic-release/release-notes-generator"
-  - - "@google/semantic-release-replace-plugin"
-    - replacements:
-        - countMatches: true
-          files:
-            - data_access/version.py
-          from: "version = \".*\""
-          results:
-            - file: data_access/version.py
-              hasChanged: true
-              numMatches: 1
-              numReplacements: 1
-          to: "version = \"${nextRelease.version}\""
   - - "@semantic-release/git"
     - assets:
         - data_access/version.py
