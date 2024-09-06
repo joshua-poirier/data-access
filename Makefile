@@ -25,3 +25,7 @@ format:
 .PHONY: test
 test:
 	pipenv run pytest tests
+
+.PHONY: docs
+docs:
+	pipenv run pdoc -d google -o docs --math data_access
