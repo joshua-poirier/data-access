@@ -1,6 +1,5 @@
 import logging
 from abc import ABC, abstractmethod
-from datetime import datetime
 
 import pandas as pd
 from pydantic import BaseModel
@@ -13,7 +12,7 @@ class DataSource(ABC, BaseModel):
 
     @property
     @abstractmethod
-    def source_created_at(self) -> datetime:
+    def source_created_at(self) -> str:
         """Datetime when the source was created.
 
         Returns:
@@ -22,7 +21,7 @@ class DataSource(ABC, BaseModel):
 
     @property
     @abstractmethod
-    def source_updated_at(self) -> datetime:
+    def source_updated_at(self) -> str:
         """Datetime when the source was last updated.
 
         Returns:
