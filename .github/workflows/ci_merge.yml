@@ -1,0 +1,49 @@
+# Run this CI Workflow on merges to the `main` branch
+name: Merge CI
+on:
+  push:
+    branches:
+      - main
+
+# Security permissions (enabling write access for documentation)
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    environment: Actions CI
+
+    steps:
+      # Checkout code
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+
+      # Setup Python
+      - name: Setup Python
+        uses: actions/setup-python@v5
+
+      # Setup virtual environment, install dependencies
+      - name: Setup Virtual Environment
+        run: make init
+
+      # Create documentation using pdoc
+      - name: Create documentation
+        run: make docs
+
+      # Upload documentation to docs folder
+      - name: Upload documentation
+        uses: actions/upload-artifact@v4
+        with:
+          name: docs_data
+          path: docs/
+          if-no-files-found: error
+          overwrite: true
+
+      # Run Semantic Release to get versioning and changelog
+      - name: Semantic Release
+        uses: cycjimmy/semantic-release-action@v4
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT }}
