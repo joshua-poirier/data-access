@@ -43,6 +43,7 @@ jobs:
       - name: Upload documentation
         uses: actions/upload-artifact@v4
         with:
+          name: github-pages
           path: .
           if-no-files-found: error
           overwrite: true
