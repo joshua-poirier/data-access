@@ -37,12 +37,10 @@ jobs:
 
       # Upload documentation to docs folder
       - name: Upload documentation
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-pages-artifact@v3
         with:
           name: github-pages
           path: ./docs
-          if-no-files-found: error
-          overwrite: true
 
       # Run Semantic Release to get versioning and changelog
       - name: Semantic Release
@@ -65,7 +63,7 @@ jobs:
     steps:
       # Deploy documentation to GitHub Pages
       - name: Deploy documentation
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            publish_dir: .
+        uses: actions/deploy-pages@v4
+        # with:
+        #     github_token: ${{ secrets.GITHUB_TOKEN }}
+        #     publish_dir: .
