@@ -7,7 +7,7 @@ on:
 
 # Security permissions (enabling write access for documentation)
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 
@@ -36,8 +36,8 @@ jobs:
         run: make docs
 
       # Setup GitHub Pages
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
+      # - name: Setup Pages
+      #   uses: actions/configure-pages@v5
 
       # Upload documentation to docs folder
       - name: Upload documentation
@@ -48,13 +48,24 @@ jobs:
           if-no-files-found: error
           overwrite: true
 
-      # Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
-
       # Run Semantic Release to get versioning and changelog
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+
+    permissions:
+      pages: write
+      id-token: write
+
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+    - id: deployment
+      uses: actions/deploy-pages@v4
