@@ -35,6 +35,10 @@ jobs:
       - name: Create documentation
         run: make docs
 
+      # Setup GitHub Pages
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
       # Upload documentation to docs folder
       - name: Upload documentation
         uses: actions/upload-artifact@v4
@@ -44,41 +48,13 @@ jobs:
           if-no-files-found: error
           overwrite: true
 
+      # Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
+
       # Run Semantic Release to get versioning and changelog
       - name: Semantic Release
         uses: cycjimmy/semantic-release-action@v4
         env:
           GH_TOKEN: ${{ secrets.GH_PAT }}
-
-      # Deploy documentation to Github Pages
-      # - name: Deploy docs
-      #   uses: peaceiris/actions-gh-pages@v4
-      #   if: github.ref == 'refs/heads/main'
-      #   with:
-      #     github_token: ${{ secrets.GH_PAT }}
-      #     publish_dir: ./docs
-      #     keep_files: true
-
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-
-    needs: build
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          path: '.'
-
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v4
