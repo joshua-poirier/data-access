@@ -12,6 +12,7 @@ from .config import AWSSession
 
 logger = logging.getLogger()
 
+
 class S3Client:
     """Client for interacting with the S3 API.
 
@@ -24,14 +25,14 @@ class S3Client:
 
     @staticmethod
     def connect():
+        """Connect to AWS, creating an S3 client."""
         session = boto3.Session(**AWSSession().model_dump())
         logger.info("Connected to AWS.")
 
         return session.client("s3")
 
-    def write(
-        self, df: pd.DataFrame, bucket: str, filename: str
-    ) -> None:
+    def write(self, df: pd.DataFrame, bucket: str, filename: str) -> None:
+        """Write a dataframe to S3."""
         csv_buffer = df.to_csv(**self.io_options)
 
         logger.info("Writing dataframe to S3.")
