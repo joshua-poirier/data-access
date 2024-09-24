@@ -11,6 +11,7 @@ isort = "==5.13.2"
 mypy = "==1.11.2"
 flake8 = "==7.1.1"
 pdoc = "==14.6.1"
+setuptools = "==75.1.0"
 pylint = "==3.3.0"
 astroid = "==3.3.3"
 
