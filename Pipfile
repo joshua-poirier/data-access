@@ -12,6 +12,7 @@ mypy = "==1.11.2"
 flake8 = "==7.1.1"
 pdoc = "==14.6.1"
 pylint = "==3.2.7"
+setuptools = "==75.1.0"
 
 [packages]
 openpyxl = "==3.1.5"
